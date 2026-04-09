@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JugendGL – Wählervereinigung Grimmelfingen-Lindenhöhe</title>
+  <meta name="description" content="JugendGL – Wählervereinigung für den Ortschaftsrat Grimmelfingen-Lindenhöhe. Ortschaftsratswahl am 5. Juli 2026. Eine Stimme für die Jugend.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #1a3a5c;
+      --primary-light: #2a5a8c;
+      --primary-dark: #0f2440;
+      --accent: #b8860b;
+      --accent-light: #d4a017;
+      --cta-red: #c0392b;
+      --cta-red-light: #e74c3c;
+      --text: #2c2c2c;
+      --text-light: #5a5a5a;
+      --bg: #f8f6f2;
+      --bg-white: #ffffff;
+      --bg-light: #eee9e0;
+      --border: #d4cfc6;
+      --shadow: rgba(0,0,0,0.08);
+      --font-heading: 'Georgia','Times New Roman',serif;
+      --font-body: 'Segoe UI','Helvetica Neue',Arial,sans-serif;
+    }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--font-body); color: var(--text); background: var(--bg); line-height: 1.7; min-height: 100vh; display: flex; flex-direction: column; }
+    a { color: var(--primary); text-decoration: none; transition: color .2s; }
+    a:hover { color: var(--accent); }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* === Election Banner === */
+    .election-banner { background: linear-gradient(90deg, var(--cta-red) 0%, #a93226 100%); color: #fff; padding: 10px 0; text-align: center; font-weight: 600; font-size: .95rem; letter-spacing: .03em; cursor: pointer; transition: background .2s; }
+    .election-banner:hover { background: linear-gradient(90deg, var(--cta-red-light) 0%, var(--cta-red) 100%); }
+    .election-banner .date-badge { display: inline-block; background: #fff; color: var(--cta-red); padding: 2px 12px; border-radius: 20px; font-weight: 700; margin-right: 10px; font-size: .88rem; }
+
+    /* === Top Bar === */
+    .top-bar { background: var(--primary-dark); color: rgba(255,255,255,.7); font-size: .85rem; padding: 6px 0; }
+    .top-bar .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .top-bar a { color: rgba(255,255,255,.8); }
+    .top-bar a:hover { color: #fff; }
+
+    /* === Header === */
+    .site-header { background: var(--primary); color: #fff; box-shadow: 0 2px 8px var(--shadow); position: sticky; top: 0; z-index: 100; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; max-width: 1100px; margin: 0 auto; }
+    .site-logo { display: flex; align-items: center; gap: 14px; padding: 14px 0; cursor: pointer; }
+    .logo-icon { width: 50px; height: 50px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: bold; color: #fff; font-family: var(--font-heading); flex-shrink: 0; }
+    .site-title { font-family: var(--font-heading); font-size: 1.15rem; font-weight: normal; line-height: 1.3; }
+    .site-title strong { display: block; font-size: 1.05rem; }
+
+    /* === Nav === */
+    .main-nav ul { display: flex; list-style: none; }
+    .main-nav a { display: block; color: rgba(255,255,255,.85); padding: 22px 14px; font-size: .9rem; font-weight: 500; border-bottom: 3px solid transparent; transition: all .2s; cursor: pointer; }
+    .main-nav a:hover, .main-nav a.active { color: #fff; border-bottom-color: var(--accent); background: rgba(255,255,255,.05); }
+    .menu-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.6rem; cursor: pointer; padding: 10px; }
+
+    /* === Hero === */
+    .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; padding: 60px 0 50px; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+    .hero-content { position: relative; z-index: 1; }
+    .hero h1 { font-family: var(--font-heading); font-size: 2.6rem; font-weight: normal; margin-bottom: 10px; }
+    .hero .slogan { font-size: 1.35rem; font-weight: 600; color: var(--accent-light); margin-bottom: 18px; letter-spacing: .04em; }
+    .hero .subtitle { font-size: 1.1rem; opacity: .9; margin-bottom: 28px; max-width: 650px; margin-left: auto; margin-right: auto; }
+
+    /* Countdown */
+    .countdown-row { display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; }
+    .countdown-box { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); border-radius: 8px; padding: 14px 20px; min-width: 80px; text-align: center; }
+    .countdown-box .num { font-size: 2rem; font-weight: 700; display: block; line-height: 1.2; }
+    .countdown-box .label { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; opacity: .8; }
+
+    .cta-btn { display: inline-block; background: var(--accent); color: #fff; padding: 14px 36px; font-size: 1rem; font-weight: 600; border-radius: 4px; transition: background .2s, transform .2s; cursor: pointer; border: none; }
+    .cta-btn:hover { background: var(--accent-light); color: #fff; transform: translateY(-1px); }
+    .cta-btn-red { background: var(--cta-red); }
+    .cta-btn-red:hover { background: var(--cta-red-light); }
+
+    /* === Page Header === */
+    .page-header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: #fff; padding: 45px 0; text-align: center; }
+    .page-header h1 { font-family: var(--font-heading); font-size: 2.2rem; font-weight: normal; margin-bottom: 8px; }
+    .page-header .breadcrumb { font-size: .9rem; opacity: .8; }
+    .page-header .breadcrumb a { color: rgba(255,255,255,.8); cursor: pointer; }
+
+    /* === Main === */
+    .main-content { flex: 1; padding: 50px 0; }
+    .content-section { margin-bottom: 50px; }
+    .content-section h2 { font-family: var(--font-heading); font-size: 1.8rem; color: var(--primary); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--accent); display: inline-block; }
+    .content-section h3 { font-family: var(--font-heading); font-size: 1.3rem; color: var(--primary); margin-bottom: 12px; }
+    .content-section p { margin-bottom: 16px; }
+
+    /* === Election Info Box === */
+    .election-info-box { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: #fff; border-radius: 8px; padding: 36px; margin: 30px 0; text-align: center; }
+    .election-info-box h3 { color: #fff; font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 6px; }
+    .election-info-box .big-date { font-size: 2.2rem; font-weight: 700; color: var(--accent-light); margin: 10px 0; }
+    .election-info-box p { color: rgba(255,255,255,.9); margin-bottom: 10px; }
+
+    /* === Wahlinfo Grid === */
+    .wahlinfo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 24px; }
+    .wahlinfo-card { background: var(--bg-white); border: 1px solid var(--border); border-top: 3px solid var(--primary); border-radius: 6px; padding: 24px; }
+    .wahlinfo-card h3 { font-family: var(--font-heading); color: var(--primary); font-size: 1.05rem; margin-bottom: 10px; }
+    .wahlinfo-card p { color: var(--text-light); font-size: .93rem; margin-bottom: 8px; }
+    .wahlinfo-card strong { color: var(--text); }
+
+    /* === Features === */
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 30px; }
+    .feature-box { background: var(--bg-white); border: 1px solid var(--border); border-radius: 6px; padding: 30px 24px; text-align: center; transition: box-shadow .3s; }
+    .feature-box:hover { box-shadow: 0 4px 16px var(--shadow); }
+    .feature-icon { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+    .feature-box h3 { font-family: var(--font-heading); color: var(--primary); margin-bottom: 10px; font-size: 1.1rem; }
+    .feature-box p { color: var(--text-light); font-size: .93rem; }
+
+    /* === Kandidaten === */
+    .kandidaten-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 28px; margin-top: 24px; }
+    .kandidat-card { background: var(--bg-white); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; text-align: center; transition: box-shadow .3s, transform .2s; }
+    .kandidat-card:hover { box-shadow: 0 6px 20px var(--shadow); transform: translateY(-2px); }
+    .kandidat-photo { width: 100%; height: 220px; background: linear-gradient(135deg, var(--bg-light) 0%, var(--border) 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; color: var(--primary-light); }
+    .kandidat-info { padding: 20px; }
+    .kandidat-info h3 { font-family: var(--font-heading); color: var(--primary); font-size: 1.1rem; margin-bottom: 4px; }
+    .kandidat-info .rolle { color: var(--accent); font-size: .85rem; font-weight: 600; margin-bottom: 4px; }
+    .kandidat-info .ort { color: var(--text-light); font-size: .85rem; margin-bottom: 8px; font-style: italic; }
+    .kandidat-info .platz { background: var(--primary); color: #fff; display: inline-block; padding: 2px 12px; border-radius: 12px; font-size: .78rem; font-weight: 600; margin-bottom: 8px; }
+
+    /* === Programm === */
+    .programm-list { list-style: none; margin-top: 20px; }
+    .programm-item { background: var(--bg-white); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 0 6px 6px 0; padding: 24px 28px; margin-bottom: 18px; transition: box-shadow .2s; }
+    .programm-item:hover { box-shadow: 0 2px 12px var(--shadow); }
+    .programm-item h3 { font-family: var(--font-heading); color: var(--primary); margin-bottom: 8px; font-size: 1.15rem; }
+    .programm-item .nummer { display: inline-block; background: var(--primary); color: #fff; width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px; font-size: .85rem; font-weight: 700; margin-right: 10px; vertical-align: middle; }
+    .programm-item p { color: var(--text-light); font-size: .95rem; }
+
+    /* === News === */
+    .news-list { margin-top: 24px; }
+    .news-item { background: var(--bg-white); border: 1px solid var(--border); border-radius: 6px; padding: 28px; margin-bottom: 22px; transition: box-shadow .2s; }
+    .news-item:hover { box-shadow: 0 2px 12px var(--shadow); }
+    .news-date { font-size: .82rem; color: var(--accent); font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .05em; }
+    .news-item h3 { font-family: var(--font-heading); color: var(--primary); margin-bottom: 10px; font-size: 1.2rem; }
+    .news-item p { color: var(--text-light); font-size: .95rem; }
+
+    /* === Kontakt === */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 24px; }
+    .contact-form label { display: block; font-weight: 600; margin-bottom: 6px; font-size: .92rem; }
+    .contact-form input, .contact-form textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 4px; font-family: var(--font-body); font-size: .95rem; margin-bottom: 18px; background: var(--bg-white); transition: border-color .2s; }
+    .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,58,92,.1); }
+    .contact-form textarea { min-height: 140px; resize: vertical; }
+    .btn-submit { display: inline-block; background: var(--primary); color: #fff; padding: 13px 32px; font-size: 1rem; font-weight: 600; border: none; border-radius: 4px; cursor: pointer; transition: background .2s; font-family: var(--font-body); }
+    .btn-submit:hover { background: var(--primary-light); }
+    .contact-info-box { background: var(--bg-white); border: 1px solid var(--border); border-radius: 6px; padding: 28px; margin-bottom: 22px; }
+    .contact-info-box h3 { font-family: var(--font-heading); color: var(--primary); margin-bottom: 16px; }
+    .contact-detail { display: flex; gap: 12px; margin-bottom: 18px; align-items: flex-start; }
+    .contact-detail .icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+    .contact-detail p { font-size: .95rem; line-height: 1.5; }
+
+    /* === Legal === */
+    .legal-content { max-width: 800px; }
+    .legal-content h3 { margin-top: 28px; margin-bottom: 10px; font-family: var(--font-heading); color: var(--primary); font-size: 1.15rem; }
+    .legal-content p { color: var(--text); font-size: .95rem; margin-bottom: 12px; }
+    .legal-content ul { margin: 0 0 16px 24px; color: var(--text); font-size: .95rem; }
+    .legal-content li { margin-bottom: 6px; }
+
+    /* === Footer === */
+    .site-footer { background: var(--primary-dark); color: rgba(255,255,255,.75); padding: 40px 0 0; margin-top: auto; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; padding-bottom: 30px; }
+    .footer-col h4 { color: #fff; font-family: var(--font-heading); font-size: 1rem; margin-bottom: 14px; }
+    .footer-col p { font-size: .9rem; line-height: 1.6; margin-bottom: 8px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: rgba(255,255,255,.7); font-size: .9rem; cursor: pointer; }
+    .footer-col a:hover { color: var(--accent-light); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding: 18px 0; text-align: center; font-size: .82rem; color: rgba(255,255,255,.5); }
+    .footer-legal a { margin: 0 8px; color: rgba(255,255,255,.5); cursor: pointer; }
+    .footer-legal a:hover { color: var(--accent-light); }
+
+    /* === Fade === */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity .5s ease, transform .5s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* === Responsive === */
+    @media (max-width: 900px) {
+      .features, .wahlinfo-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+    @media (max-width: 768px) {
+      .header-inner { flex-wrap: wrap; }
+      .menu-toggle { display: block; }
+      .main-nav { display: none; width: 100%; order: 3; }
+      .main-nav.open { display: block; }
+      .main-nav ul { flex-direction: column; }
+      .main-nav a { padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,.1); }
+      .hero h1 { font-size: 1.8rem; }
+      .hero .slogan { font-size: 1.1rem; }
+      .hero { padding: 40px 0 35px; }
+      .page-header h1 { font-size: 1.6rem; }
+      .kandidaten-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+      .top-bar { display: none; }
+      .countdown-box { min-width: 65px; padding: 10px 14px; }
+      .countdown-box .num { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Election Banner -->
+  <div class="election-banner" onclick="navigate('wahlinfo')">
+    <span class="date-badge">5. Juli 2026</span> Ortschaftsratswahl Grimmelfingen-Lindenhöhe &ndash; Eine Stimme für die Jugend! &#9654;
+  </div>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <span>Wählervereinigung für den Ortschaftsrat Grimmelfingen-Lindenhöhe</span>
+      <span><a href="mailto:JugendGL-Ulm@outlook.com">JugendGL-Ulm@outlook.com</a></span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="site-logo" onclick="navigate('startseite')">
+        <div class="logo-icon">GL</div>
+        <div class="site-title"><strong>JugendGL</strong>Grimmelfingen-Lindenhöhe</div>
+      </div>
+      <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menü">&#9776;</button>
+      <nav class="main-nav" id="mainNav">
+        <ul>
+          <li><a onclick="navigate('startseite')" id="nav-startseite" class="active">Startseite</a></li>
+          <li><a onclick="navigate('ueber-uns')" id="nav-ueber-uns">Über uns</a></li>
+          <li><a onclick="navigate('kandidaten')" id="nav-kandidaten">Kandidaten</a></li>
+          <li><a onclick="navigate('programm')" id="nav-programm">Programm</a></li>
+          <li><a onclick="navigate('wahlinfo')" id="nav-wahlinfo">Wahlinfo</a></li>
+          <li><a onclick="navigate('aktuelles')" id="nav-aktuelles">Aktuelles</a></li>
+          <li><a onclick="navigate('kontakt')" id="nav-kontakt">Kontakt</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div id="app"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>JugendGL</h4>
+          <p>Wählervereinigung für den Ortschaftsrat Grimmelfingen-Lindenhöhe.</p>
+          <p><strong>5. Juli 2026</strong> &ndash; Eine Stimme für die Jugend!</p>
+          <p>Ansprechpartner: Julius Merz</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a onclick="navigate('startseite')">Startseite</a></li>
+            <li><a onclick="navigate('ueber-uns')">Über uns</a></li>
+            <li><a onclick="navigate('kandidaten')">Kandidaten</a></li>
+            <li><a onclick="navigate('programm')">Programm</a></li>
+            <li><a onclick="navigate('wahlinfo')">Wahlinfo</a></li>
+            <li><a onclick="navigate('aktuelles')">Aktuelles</a></li>
+            <li><a onclick="navigate('kontakt')">Kontakt</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Kontakt</h4>
+          <p>&#9993; <a href="mailto:JugendGL-Ulm@outlook.com">JugendGL-Ulm@outlook.com</a></p>
+          <p>&#128205; Grimmelfingen &amp; Lindenhöhe, Ulm</p>
+          <p>Ansprechpartner: Julius Merz</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 JugendGL &ndash; Wählervereinigung Grimmelfingen-Lindenhöhe
+        <span class="footer-legal"> | <a onclick="navigate('impressum')">Impressum</a> | <a onclick="navigate('datenschutz')">Datenschutz</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ==========================================
+    //  JugendGL – SPA mit JS-Routing
+    // ==========================================
+
+    const kandidaten = [
+      { platz: 1,  nachname: "Hauff",   vorname: "Christin",   ort: "Grimmelfingen" },
+      { platz: 2,  nachname: "Merz",    vorname: "Julius",     ort: "Grimmelfingen", rolle: "Hauptansprechpartner" },
+      { platz: 3,  nachname: "Fromm",   vorname: "Désirée",    ort: "Lindenhöhe" },
+      { platz: 4,  nachname: "Kovac",   vorname: "Leo",        ort: "Lindenhöhe" },
+      { platz: 5,  nachname: "Hauff",   vorname: "Nicole",     ort: "Grimmelfingen" },
+      { platz: 6,  nachname: "Preiß",   vorname: "Nicolas",    ort: "Grimmelfingen" },
+      { platz: 7,  nachname: "Merz",    vorname: "Maximilian", ort: "Grimmelfingen" },
+      { platz: 8,  nachname: "Weiss",   vorname: "Jonas",      ort: "Grimmelfingen" },
+      { platz: 9,  nachname: "Seiwert", vorname: "Tim",        ort: "Lindenhöhe" },
+      { platz: 10, nachname: "Fromm",   vorname: "Dominic",    ort: "Lindenhöhe" },
+      { platz: 11, nachname: "Weiss",   vorname: "Daniel",     ort: "Grimmelfingen" },
+      { platz: 12, nachname: "Gross",   vorname: "Maximilian", ort: "Grimmelfingen" },
+      { platz: 13, nachname: "Preiß",   vorname: "Nils",       ort: "Grimmelfingen" }
+    ];
+
+    function getInitials(v, n) { return (v.charAt(0) + n.charAt(0)).toUpperCase(); }
+
+    function getCountdown() {
+      const election = new Date('2026-07-05T08:00:00');
+      const now = new Date();
+      const diff = election - now;
+      if (diff <= 0) return { tage: 0, stunden: 0, minuten: 0, vorbei: true };
+      return {
+        tage: Math.floor(diff / (1000*60*60*24)),
+        stunden: Math.floor((diff % (1000*60*60*24)) / (1000*60*60)),
+        minuten: Math.floor((diff % (1000*60*60)) / (1000*60)),
+        vorbei: false
+      };
+    }
+
+    const pages = {
+
+      'startseite': () => {
+        const cd = getCountdown();
+        const countdownHTML = cd.vorbei
+          ? '<p style="font-size:1.2rem;font-weight:600;color:var(--accent-light);">Die Wahl hat stattgefunden!</p>'
+          : '<div class="countdown-row">' +
+            '<div class="countdown-box"><span class="num" id="cd-tage">' + cd.tage + '</span><span class="label">Tage</span></div>' +
+            '<div class="countdown-box"><span class="num" id="cd-stunden">' + cd.stunden + '</span><span class="label">Stunden</span></div>' +
+            '<div class="countdown-box"><span class="num" id="cd-minuten">' + cd.minuten + '</span><span class="label">Minuten</span></div>' +
+            '</div>';
+        return '<section class="hero"><div class="hero-content container">' +
+          '<h1>JugendGL</h1>' +
+          '<div class="slogan">5. Juli 2026 &ndash; Eine Stimme für die Jugend!</div>' +
+          '<p class="subtitle">Wählervereinigung für den Ortschaftsrat Grimmelfingen-Lindenhöhe.<br>Die erste Ortschaftsratswahl in der Geschichte unserer Ortschaft.</p>' +
+          countdownHTML +
+          '<button class="cta-btn" onclick="navigate(\'kandidaten\')" style="margin-right:10px;">Unsere Kandidaten</button>' +
+          '<button class="cta-btn cta-btn-red" onclick="navigate(\'wahlinfo\')">Wahlinfo &amp; Stimmzettel</button>' +
+          '</div></section>' +
+          '<div class="main-content"><div class="container">' +
+
+          '<section class="content-section fade-in">' +
+          '<h2>Historische Wahl am 5. Juli 2026</h2>' +
+          '<p>Zum ersten Mal in der Geschichte wählen die Bürgerinnen und Bürger von Grimmelfingen und Lindenhöhe ihren eigenen Ortschaftsrat. Mit der Einführung der Ortschaftsverfassung am 1. April 2026 – genau 100 Jahre nach der Eingemeindung Grimmelfingens nach Ulm – bekommt unsere Ortschaft endlich eine eigene demokratische Vertretung.</p>' +
+          '<p>Wir von JugendGL treten mit 13 engagierten Kandidatinnen und Kandidaten an, um diese einmalige Chance zu nutzen und unsere Ortschaft aktiv mitzugestalten.</p>' +
+          '<div class="election-info-box">' +
+          '<h3>Ortschaftsratswahl</h3>' +
+          '<div class="big-date">5. Juli 2026</div>' +
+          '<p>Die erste Wahl zum Ortschaftsrat Grimmelfingen-Lindenhöhe</p>' +
+          '<p style="opacity:.8;font-size:.9rem;">Stadt Ulm &middot; Ortschaftsverfassung seit 1. April 2026</p>' +
+          '<button class="cta-btn" onclick="navigate(\'wahlinfo\')" style="margin-top:14px;">Alle Infos zur Wahl</button>' +
+          '</div></section>' +
+
+          '<section class="content-section fade-in">' +
+          '<h2>Wofür wir stehen</h2>' +
+          '<div class="features">' +
+          '<div class="feature-box"><span class="feature-icon">&#127963;</span><h3>Lebenswerter Ort</h3><p>Grünflächen, Spielplätze, Begegnungsorte – für eine hohe Lebensqualität in unserer Ortschaft.</p></div>' +
+          '<div class="feature-box"><span class="feature-icon">&#129309;</span><h3>Gemeinschaft stärken</h3><p>Vereine, Feste und Nachbarschaftshilfe – wir fördern das Miteinander in Grimmelfingen und Lindenhöhe.</p></div>' +
+          '<div class="feature-box"><span class="feature-icon">&#128227;</span><h3>Jugend eine Stimme</h3><p>Als junge Wählervereinigung bringen wir die Perspektive der nächsten Generation in den Ortschaftsrat.</p></div>' +
+          '</div></section>' +
+
+          '<section class="content-section fade-in">' +
+          '<h2>Ansprechpartner</h2>' +
+          '<p>Fragen, Anregungen oder Ideen? Wendet euch an <strong>Julius Merz</strong> oder schreibt uns an <a href="mailto:JugendGL-Ulm@outlook.com">JugendGL-Ulm@outlook.com</a>.</p>' +
+          '<button class="cta-btn" onclick="navigate(\'kontakt\')" style="margin-top:10px;">Kontakt aufnehmen</button>' +
+          '</section>' +
+
+          '</div></div>';
+      },
+
+      'ueber-uns': () =>
+        '<section class="page-header"><div class="container">' +
+        '<h1>Über uns</h1><div class="breadcrumb"><a onclick="navigate(\'startseite\')">Startseite</a> &rsaquo; Über uns</div>' +
+        '</div></section>' +
+        '<div class="main-content"><div class="container">' +
+
+        '<section class="content-section fade-in">' +
+        '<h2>Wer wir sind</h2>' +
+        '<p>JugendGL ist eine unabhängige Wählervereinigung aus Grimmelfingen und Lindenhöhe, die sich keiner Partei angeschlossen hat. Wir verfolgen ein Ziel: das Beste für unsere Ortschaft.</p>' +
+        '<p>Mit 13 Kandidatinnen und Kandidaten – 9 aus Grimmelfingen und 4 aus Lindenhöhe – bilden wir einen breiten Querschnitt unserer Gemeinde. Wir treten bei der historischen ersten Ortschaftsratswahl am <strong>5. Juli 2026</strong> an.</p>' +
+        '</section>' +
+
+        '<section class="content-section fade-in">' +
+        '<h2>Historischer Hintergrund</h2>' +
+        '<p>Am 29. März 2026 feierte Grimmelfingen das 100-jährige Jubiläum der Eingemeindung nach Ulm. Gleichzeitig wurde die Einführung der Ortschaftsverfassung zum 1. April 2026 gefeiert – ein Meilenstein für die lokale Demokratie.</p>' +
+        '<p>Erstmals erhalten Grimmelfingen und Lindenhöhe einen eigenen Ortschaftsrat und einen ehrenamtlichen Ortsvorsteher. Diese neue Vertretung gibt unserer Ortschaft eine starke Stimme innerhalb der Stadt Ulm.</p>' +
+        '</section>' +
+
+        '<section class="content-section fade-in">' +
+        '<h2>Unsere Motivation</h2>' +
+        '<p>Kommunalpolitik funktioniert am besten, wenn sich Menschen vor Ort engagieren – Menschen, die die Sorgen und Wünsche ihrer Nachbarn kennen. Als junge Wählervereinigung bringen wir frische Ideen ein, ohne bewährte Strukturen über Bord zu werfen.</p>' +
+        '<div class="features">' +
+        '<div class="feature-box"><span class="feature-icon" style="color:var(--primary);">13</span><h3>Kandidaten</h3><p>Engagierte Bürger auf unserer Liste</p></div>' +
+        '<div class="feature-box"><span class="feature-icon" style="color:var(--primary);">2</span><h3>Ortsteile</h3><p>Grimmelfingen &amp; Lindenhöhe</p></div>' +
+        '<div class="feature-box"><span class="feature-icon" style="color:var(--primary);">1</span><h3>Ziel</h3><p>Das Beste für unsere Ortschaft</p></div>' +
+        '</div></section>' +
+
+        '</div></div>',
+
+      'kandidaten': () => {
+        let cards = '';
+        for (let i = 0; i < kandidaten.length; i++) {
+          const k = kandidaten[i];
+          cards += '<div class="kandidat-card fade-in">' +
+            '<div class="kandidat-photo">' + getInitials(k.vorname, k.nachname) + '</div>' +
+            '<div class="kandidat-info">' +
+            '<span class="platz">Platz ' + k.platz + '</span>' +
+            '<h3>' + k.vorname + ' ' + k.nachname + '</h3>' +
+            (k.rolle ? '<div class="rolle">' + k.rolle + '</div>' : '') +
+            '<div class="ort">&#128205; ' + k.ort + '</div>' +
+            '</div></div>';
+        }
+        return '<section class="page-header"><div class="container">' +
+          '<h1>Unsere Kandidaten</h1><div class="breadcrumb"><a onclick="navigate(\'startseite\')">Startseite</a> &rsaquo; Kandidaten</div>' +
+          '</div></section>' +
+          '<div class="main-content"><div class="container">' +
+          '<section class="content-section">' +
+          '<h2>Liste JugendGL</h2>' +
+          '<p>Unsere 13 Kandidatinnen und Kandidaten für die Ortschaftsratswahl am <strong>5. Juli 2026</strong>. Die Reihenfolge entspricht der offiziellen Listenreihenfolge. Ihr könnt jeder Kandidatin und jedem Kandidaten bis zu <strong>3 Stimmen</strong> geben (Kumulieren)!</p>' +
+          '<div class="kandidaten-grid">' + cards + '</div>' +
+          '</section>' +
+          '<div class="election-info-box" style="margin-top:40px;">' +
+          '<h3>Am 5. Juli 2026 &ndash; Eine Stimme für die Jugend!</h3>' +
+          '<p>Gebt eure Stimmen der Liste JugendGL und unterstützt junge, engagierte Kommunalpolitik.</p>' +
+          '<button class="cta-btn" onclick="navigate(\'wahlinfo\')" style="margin-top:12px;">So funktioniert die Wahl</button>' +
+          '</div></div></div>';
+      },
+
+      'programm': () =>
+        '<section class="page-header"><div class="container">' +
+        '<h1>Unser Programm</h1><div class="breadcrumb"><a onclick="navigate(\'startseite\')">Startseite</a> &rsaquo; Programm</div>' +
+        '</div></section>' +
+        '<div class="main-content"><div class="container">' +
+        '<section class="content-section">' +
+        '<h2>Unsere Ziele</h2>' +
+        '<p>Wir stehen für eine zukunftsorientierte, bürgernahe Politik in Grimmelfingen-Lindenhöhe.</p>' +
+        '<ul class="programm-list">' +
+        '<li class="programm-item fade-in"><h3><span class="nummer">1</span> Lebensqualität steigern</h3><p>Grünflächen pflegen, Spielplätze modernisieren und öffentliche Plätze als Begegnungsorte attraktiver gestalten.</p></li>' +
+        '<li class="programm-item fade-in"><h3><span class="nummer">2</span> Verkehr &amp; Infrastruktur</h3><p>Sichere Schulwege, bessere Radwege und eine gute Anbindung für alle Altersgruppen.</p></li>' +
+        '<li class="programm-item fade-in"><h3><span class="nummer">3</span> Vereinsleben fördern</h3><p>Vereine sind das Herzstück unserer Ortschaft. Bessere Rahmenbedingungen, Räumlichkeiten und aktive Zusammenarbeit.</p></li>' +
+        '<li class="programm-item fade-in"><h3><span class="nummer">4</span> Jugend beteiligen</h3><p>Jugendbeteiligung, Freizeitangebote und Treffpunkte für die jüngere Generation schaffen.</p></li>' +
+        '<li class="programm-item fade-in"><h3><span class="nummer">5</span> Transparenz &amp; Bürgernähe</h3><p>Offene Kommunikation und transparente Entscheidungen – damit alle wissen, was im Ortschaftsrat passiert.</p></li>' +
+        '<li class="programm-item fade-in"><h3><span class="nummer">6</span> Zusammenhalt stärken</h3><p>Grimmelfingen und Lindenhöhe gehören zusammen – gemeinsame Projekte, Feste und Initiativen.</p></li>' +
+        '</ul></section></div></div>',
+
+      'wahlinfo': () =>
+        '<section class="page-header"><div class="container">' +
+        '<h1>Wahlinfo</h1><div class="breadcrumb"><a onclick="navigate(\'startseite\')">Startseite</a> &rsaquo; Wahlinfo</div>' +
+        '</div></section>' +
+        '<div class="main-content"><div class="container">' +
+
+        '<section class="content-section">' +
+        '<div class="election-info-box">' +
+        '<h3>Ortschaftsratswahl Grimmelfingen-Lindenhöhe</h3>' +
+        '<div class="big-date">Sonntag, 5. Juli 2026</div>' +
+        '<p>Die erste Wahl zum Ortschaftsrat in der Geschichte von Grimmelfingen-Lindenhöhe!</p>' +
+        '</div></section>' +
+
+        '<section class="content-section fade-in">' +
+        '<h2>So funktioniert die Wahl</h2>' +
+        '<p>Bei der Ortschaftsratswahl in Baden-Württemberg haben Sie besonders viele Möglichkeiten, Ihre Stimme gezielt einzusetzen:</p>' +
+        '<div class="wahlinfo-grid">' +
+        '<div class="wahlinfo-card"><h3>&#9745; Wer darf wählen?</h3><p>Wahlberechtigt sind alle Bürgerinnen und Bürger mit Hauptwohnsitz in <strong>Grimmelfingen oder Lindenhöhe</strong>, die am Wahltag das <strong>16. Lebensjahr</strong> vollendet haben. Auch EU-Bürger sind wahlberechtigt.</p></div>' +
+        '<div class="wahlinfo-card"><h3>&#128209; Wie viele Stimmen habe ich?</h3><p>Sie haben so viele Stimmen, wie Sitze im Ortschaftsrat zu vergeben sind. Diese können Sie frei auf die Kandidatinnen und Kandidaten verteilen.</p></div>' +
+        '<div class="wahlinfo-card"><h3>&#10024; Kumulieren</h3><p>Sie können einer Kandidatin oder einem Kandidaten <strong>bis zu 3 Stimmen</strong> geben. So können Sie die Personen besonders unterstützen, die Ihnen wichtig sind.</p></div>' +
+        '<div class="wahlinfo-card"><h3>&#128256; Panaschieren</h3><p>Sie können Ihre Stimmen auch <strong>über verschiedene Listen hinweg</strong> verteilen. So können Sie Kandidaten unterschiedlicher Wählervereinigungen unterstützen.</p></div>' +
+        '<div class="wahlinfo-card"><h3>&#127963; Was macht der Ortschaftsrat?</h3><p>Der Ortschaftsrat vertritt die Interessen von Grimmelfingen-Lindenhöhe gegenüber der Stadt Ulm. Er wird zu allen wichtigen Angelegenheiten gehört und wählt den ehrenamtlichen <strong>Ortsvorsteher</strong>.</p></div>' +
+        '<div class="wahlinfo-card"><h3>&#128197; Historischer Hintergrund</h3><p>Die Ortschaftsverfassung trat am <strong>1. April 2026</strong> in Kraft – 100 Jahre nach der Eingemeindung Grimmelfingens nach Ulm. Die Wahl am 5. Juli ist die <strong>allererste Ortschaftsratswahl</strong> für unsere Ortschaft.</p></div>' +
+        '</div></section>' +
+
+        '<section class="content-section fade-in">' +
+        '<h2>Unsere Empfehlung</h2>' +
+        '<div class="election-info-box">' +
+        '<h3>Am 5. Juli 2026 &ndash; Eine Stimme für die Jugend!</h3>' +
+        '<p style="font-size:1.05rem;">Gebt eure Stimmen der Liste <strong>JugendGL</strong>.<br>Ihr könnt jedem unserer 13 Kandidaten bis zu 3 Stimmen geben!</p>' +
+        '<button class="cta-btn" onclick="navigate(\'kandidaten\')" style="margin-top:14px;">Unsere Kandidaten ansehen</button>' +
+        '</div></section>' +
+
+        '</div></div>',
+
+      'aktuelles': () =>
+        '<section class="page-header"><div class="container">' +
+        '<h1>Aktuelles</h1><div class="breadcrumb"><a onclick="navigate(\'startseite\')">Startseite</a> &rsaquo; Aktuelles</div>' +
+        '</div></section>' +
+        '<div class="main-content"><div class="container">' +
+        '<section class="content-section"><h2>Neuigkeiten &amp; Termine</h2>' +
+        '<div class="news-list">' +
+        '<div class="news-item fade-in"><div class="news-date">April 2026</div><h3>Ortschaftsverfassung ist in Kraft!</h3><p>Seit dem 1. April 2026 gilt die Ortschaftsverfassung für Grimmelfingen-Lindenhöhe. Damit ist der Weg frei für die erste Ortschaftsratswahl am 5. Juli 2026. Ein historischer Moment für unsere Ortschaft!</p></div>' +
+        '<div class="news-item fade-in"><div class="news-date">April 2026</div><h3>Website online &amp; Kandidatenliste steht</h3><p>Unsere Website ist ab sofort online! Hier findet ihr alle Informationen über JugendGL, unsere 13 Kandidatinnen und Kandidaten sowie unser Programm.</p></div>' +
+        '<div class="news-item fade-in"><div class="news-date">März 2026</div><h3>100 Jahre Eingemeindung &amp; Jubiläumsfeier</h3><p>Am 29. März 2026 feierte Grimmelfingen das 100-jährige Jubiläum der Eingemeindung nach Ulm. Gleichzeitig wurde die Einführung der Ortschaftsverfassung gefeiert – ein doppelter Grund zum Feiern!</p></div>' +
+        '<div class="news-item fade-in"><div class="news-date">Demnächst</div><h3>Kandidatenvorstellung</h3><p>Bald stellen sich unsere Kandidatinnen und Kandidaten persönlich vor. Termin und Ort werden noch bekanntgegeben – bleibt dran!</p></div>' +
+        '</div></section></div></div>',
+
+      'kontakt': () =>
+        '<section class="page-header"><div class="container">' +
+        '<h1>Kontakt</h1><div class="breadcrumb"><a onclick="navigate(\'startseite\')">Startseite</a> &rsaquo; Kontakt</div>' +
+        '</div></section>' +
+        '<div class="main-content"><div class="container">' +
+        '<section class="content-section"><h2>Schreibt uns</h2>' +
+        '<p>Fragen, Anregungen oder Ideen für Grimmelfingen-Lindenhöhe? Wir freuen uns auf eure Nachricht!</p>' +
+        '<div class="contact-grid">' +
+        '<div class="contact-form"><form onsubmit="handleContactForm(event)">' +
+        '<label for="name">Name</label><input type="text" id="name" name="name" placeholder="Euer Name" required>' +
+        '<label for="email">E-Mail</label><input type="email" id="email" name="email" placeholder="Eure E-Mail-Adresse" required>' +
+        '<label for="betreff">Betreff</label><input type="text" id="betreff" name="betreff" placeholder="Worum geht es?">' +
+        '<label for="nachricht">Nachricht</label><textarea id="nachricht" name="nachricht" placeholder="Eure Nachricht an uns..." required></textarea>' +
+        '<button type="submit" class="btn-submit">Nachricht senden</button>' +
+        '</form></div>' +
+        '<div>' +
+        '<div class="contact-info-box"><h3>Kontaktdaten</h3>' +
+        '<div class="contact-detail"><span class="icon">&#9993;</span><div><p><strong>E-Mail</strong><br><a href="mailto:JugendGL-Ulm@outlook.com">JugendGL-Ulm@outlook.com</a></p></div></div>' +
+        '<div class="contact-detail"><span class="icon">&#128100;</span><div><p><strong>Hauptansprechpartner</strong><br>Julius Merz</p></div></div>' +
+        '<div class="contact-detail"><span class="icon">&#128205;</span><div><p><strong>Ortschaft</strong><br>Grimmelfingen &amp; Lindenhöhe<br>Stadt Ulm</p></div></div>' +
+        '</div>' +
+        '<div class="contact-info-box"><h3>Direkt per E-Mail</h3>' +
+        '<p style="color:var(--text-light);font-size:.93rem;margin-bottom:14px;">Ihr könnt uns auch direkt eine E-Mail schreiben:</p>' +
+        '<a href="mailto:JugendGL-Ulm@outlook.com" class="cta-btn" style="display:inline-block;text-align:center;font-size:.93rem;padding:12px 24px;">E-Mail schreiben</a></div>' +
+        '</div></div></section></div></div>',
+
+      'impressum': () =>
+        '<section class="page-header"><div class="container">' +
+        '<h1>Impressum</h1><div class="breadcrumb"><a onclick="navigate(\'startseite\')">Startseite</a> &rsaquo; Impressum</div>' +
+        '</div></section>' +
+        '<div class="main-content"><div class="container">' +
+        '<section class="content-section legal-content">' +
+        '<h2>Impressum</h2>' +
+        '<p><strong>Stand: 1. April 2026</strong></p>' +
+
+        '<h3>Angaben gemäß § 5 TMG</h3>' +
+        '<p>JugendGL – Wählervereinigung für den Ortschaftsrat Grimmelfingen-Lindenhöhe</p>' +
+
+        '<h3>Vertreten durch</h3>' +
+        '<p>Julius Merz (Hauptansprechpartner)</p>' +
+
+        '<h3>Kontakt</h3>' +
+        '<p>E-Mail: <a href="mailto:JugendGL-Ulm@outlook.com">JugendGL-Ulm@outlook.com</a></p>' +
+
+        '<h3>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h3>' +
+        '<p>Julius Merz<br>Grimmelfingen, Ulm</p>' +
+
+        '<h3>Haftungsausschluss</h3>' +
+
+        '<h3>Haftung für Inhalte</h3>' +
+        '<p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>' +
+        '<p>Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.</p>' +
+
+        '<h3>Haftung für Links</h3>' +
+        '<p>Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar.</p>' +
+        '<p>Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>' +
+
+        '<h3>Urheberrecht</h3>' +
+        '<p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.</p>' +
+        '<p>Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.</p>' +
+
+        '</section></div></div>',
+
+      'datenschutz': () =>
+        '<section class="page-header"><div class="container">' +
+        '<h1>Datenschutzerklärung</h1><div class="breadcrumb"><a onclick="navigate(\'startseite\')">Startseite</a> &rsaquo; Datenschutz</div>' +
+        '</div></section>' +
+        '<div class="main-content"><div class="container">' +
+        '<section class="content-section legal-content">' +
+        '<h2>Datenschutzerklärung</h2>' +
+        '<p><strong>Stand: 1. April 2026</strong></p>' +
+
+        '<h3>1. Datenschutz auf einen Blick</h3>' +
+        '<p>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie unsere Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können.</p>' +
+
+        '<h3>2. Verantwortliche Stelle</h3>' +
+        '<p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:</p>' +
+        '<p>JugendGL – Wählervereinigung Grimmelfingen-Lindenhöhe<br>Vertreten durch: Julius Merz<br>E-Mail: <a href="mailto:JugendGL-Ulm@outlook.com">JugendGL-Ulm@outlook.com</a></p>' +
+
+        '<h3>3. Datenerfassung auf unserer Website</h3>' +
+
+        '<h3>Wer ist verantwortlich für die Datenerfassung?</h3>' +
+        '<p>Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Die Kontaktdaten des Betreibers können Sie dem Impressum dieser Website entnehmen.</p>' +
+
+        '<h3>Wie erfassen wir Ihre Daten?</h3>' +
+        '<p>Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen, beispielsweise durch Eingabe in unser Kontaktformular oder per E-Mail. Andere Daten werden automatisch beim Besuch der Website durch unsere IT-Systeme erfasst. Das sind vor allem technische Daten (z. B. Internetbrowser, Betriebssystem oder Uhrzeit des Seitenaufrufs). Die Erfassung dieser Daten erfolgt automatisch, sobald Sie unsere Website betreten.</p>' +
+
+        '<h3>Wofür nutzen wir Ihre Daten?</h3>' +
+        '<p>Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Wenn Sie uns über das Kontaktformular oder per E-Mail kontaktieren, werden die von Ihnen übermittelten Daten (Name, E-Mail-Adresse, Nachricht) zum Zwecke der Bearbeitung Ihrer Anfrage gespeichert.</p>' +
+
+        '<h3>Welche Rechte haben Sie bezüglich Ihrer Daten?</h3>' +
+        '<p>Sie haben jederzeit das Recht, unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten. Sie haben außerdem ein Recht, die Berichtigung oder Löschung dieser Daten zu verlangen. Hierzu sowie zu weiteren Fragen zum Thema Datenschutz können Sie sich jederzeit an uns wenden.</p>' +
+
+        '<h3>4. Hosting</h3>' +
+        '<p>Diese Website wird bei einem externen Dienstleister gehostet (Hoster). Die personenbezogenen Daten, die auf dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert. Hierbei kann es sich v. a. um IP-Adressen, Kontaktanfragen, Meta- und Kommunikationsdaten, Vertragsdaten, Kontaktdaten, Namen, Websitezugriffe und sonstige Daten, die über eine Website generiert werden, handeln.</p>' +
+
+        '<h3>5. Allgemeine Hinweise und Pflichtinformationen</h3>' +
+
+        '<h3>Datenschutz</h3>' +
+        '<p>Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend den gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.</p>' +
+
+        '<h3>Hinweis zur verantwortlichen Stelle</h3>' +
+        '<p>Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:</p>' +
+        '<p>Julius Merz<br>JugendGL – Wählervereinigung Grimmelfingen-Lindenhöhe<br>E-Mail: <a href="mailto:JugendGL-Ulm@outlook.com">JugendGL-Ulm@outlook.com</a></p>' +
+        '<p>Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten (z. B. Namen, E-Mail-Adressen o. Ä.) entscheidet.</p>' +
+
+        '<h3>Widerruf Ihrer Einwilligung zur Datenverarbeitung</h3>' +
+        '<p>Viele Datenverarbeitungsvorgänge sind nur mit Ihrer ausdrücklichen Einwilligung möglich. Sie können eine bereits erteilte Einwilligung jederzeit widerrufen. Dazu reicht eine formlose Mitteilung per E-Mail an uns. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Datenverarbeitung bleibt vom Widerruf unberührt.</p>' +
+
+        '<h3>Beschwerderecht bei der zuständigen Aufsichtsbehörde</h3>' +
+        '<p>Im Falle datenschutzrechtlicher Verstöße steht dem Betroffenen ein Beschwerderecht bei der zuständigen Aufsichtsbehörde zu. Zuständige Aufsichtsbehörde in datenschutzrechtlichen Fragen ist der Landesbeauftragte für den Datenschutz des Bundeslandes Baden-Württemberg.</p>' +
+
+        '<h3>Recht auf Datenübertragbarkeit</h3>' +
+        '<p>Sie haben das Recht, Daten, die wir auf Grundlage Ihrer Einwilligung oder in Erfüllung eines Vertrags automatisiert verarbeiten, an sich oder an einen Dritten in einem gängigen, maschinenlesbaren Format aushändigen zu lassen.</p>' +
+
+        '<h3>Auskunft, Löschung und Berichtigung</h3>' +
+        '<p>Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit das Recht auf unentgeltliche Auskunft über Ihre gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger und den Zweck der Datenverarbeitung und ggf. ein Recht auf Berichtigung oder Löschung dieser Daten.</p>' +
+
+        '<h3>6. Datenerfassung auf unserer Website</h3>' +
+
+        '<h3>Kontaktformular</h3>' +
+        '<p>Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter. Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO. Sie können diese Einwilligung jederzeit widerrufen.</p>' +
+
+        '<h3>E-Mail-Kontakt</h3>' +
+        '<p>Wenn Sie uns per E-Mail kontaktieren, wird Ihre Anfrage inklusive aller daraus hervorgehenden personenbezogenen Daten (Name, Anfrage, E-Mail-Adresse) zum Zwecke der Bearbeitung Ihres Anliegens bei uns gespeichert und verarbeitet. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.</p>' +
+
+        '<h3>7. Cookies</h3>' +
+        '<p>Unsere Website verwendet <strong>keine Cookies</strong> und keine Tracking-Tools. Es werden keine Analyse- oder Werbedienste eingesetzt.</p>' +
+
+        '<h3>8. Soziale Medien</h3>' +
+        '<p>Auf unserer Website sind derzeit keine Social-Media-Plugins eingebunden. Es werden keine Daten an soziale Netzwerke übertragen.</p>' +
+
+        '<h3>9. Änderung dieser Datenschutzerklärung</h3>' +
+        '<p>Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht oder um Änderungen unserer Leistungen in der Datenschutzerklärung umzusetzen.</p>' +
+
+        '<p style="margin-top:30px;color:var(--text-light);font-size:.88rem;"><em>Diese Datenschutzerklärung wurde am 1. April 2026 erstellt.</em></p>' +
+
+        '</section></div></div>'
+    };
+
+    // --- Navigation ---
+    let currentPage = 'startseite';
+    let countdownInterval = null;
+
+    function navigate(page) {
+      if (!pages[page]) return;
+      currentPage = page;
+      document.getElementById('app').innerHTML = pages[page]();
+
+      document.querySelectorAll('.main-nav a').forEach(function(a) { a.classList.remove('active'); });
+      const nav = document.getElementById('nav-' + page);
+      if (nav) nav.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('mainNav').classList.remove('open');
+
+      setTimeout(function() {
+        document.querySelectorAll('.fade-in').forEach(function(el, i) {
+          setTimeout(function() { el.classList.add('visible'); }, i * 100);
+        });
+      }, 50);
+
+      history.pushState(null, '', '#' + page);
+
+      if (countdownInterval) { clearInterval(countdownInterval); countdownInterval = null; }
+      if (page === 'startseite') {
+        countdownInterval = setInterval(function() {
+          var cd = getCountdown();
+          var t = document.getElementById('cd-tage');
+          var s = document.getElementById('cd-stunden');
+          var m = document.getElementById('cd-minuten');
+          if (t) t.textContent = cd.tage;
+          if (s) s.textContent = cd.stunden;
+          if (m) m.textContent = cd.minuten;
+        }, 60000);
+      }
+    }
+
+    function toggleMenu() { document.getElementById('mainNav').classList.toggle('open'); }
+
+    function handleContactForm(e) {
+      e.preventDefault();
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      var betreff = document.getElementById('betreff').value;
+      var nachricht = document.getElementById('nachricht').value;
+      var subject = encodeURIComponent(betreff || 'Nachricht über JugendGL Website');
+      var body = encodeURIComponent('Name: ' + name + '\nE-Mail: ' + email + '\n\n' + nachricht);
+      window.location.href = 'mailto:JugendGL-Ulm@outlook.com?subject=' + subject + '&body=' + body;
+    }
+
+    window.addEventListener('hashchange', function() {
+      var p = location.hash.replace('#','') || 'startseite';
+      if (pages[p]) navigate(p);
+    });
+
+    navigate(location.hash.replace('#','') || 'startseite');
+  </script>
+</body>
+</html>
