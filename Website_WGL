@@ -479,7 +479,6 @@
         '<div class="news-item fade-in"><div class="news-date">April 2026</div><h3>Ortschaftsverfassung ist in Kraft!</h3><p>Seit dem 1. April 2026 gilt die Ortschaftsverfassung für Grimmelfingen-Lindenhöhe. Damit ist der Weg frei für die erste Ortschaftsratswahl am 5. Juli 2026. Ein historischer Moment für unsere Ortschaft!</p></div>' +
         '<div class="news-item fade-in"><div class="news-date">April 2026</div><h3>Website online &amp; Kandidatenliste steht</h3><p>Unsere Website ist ab sofort online! Hier findet ihr alle Informationen über JugendGL, unsere 13 Kandidatinnen und Kandidaten sowie unser Programm.</p></div>' +
         '<div class="news-item fade-in"><div class="news-date">März 2026</div><h3>100 Jahre Eingemeindung &amp; Jubiläumsfeier</h3><p>Am 29. März 2026 feierte Grimmelfingen das 100-jährige Jubiläum der Eingemeindung nach Ulm. Gleichzeitig wurde die Einführung der Ortschaftsverfassung gefeiert – ein doppelter Grund zum Feiern!</p></div>' +
-        '<div class="news-item fade-in"><div class="news-date">Demnächst</div><h3>Kandidatenvorstellung</h3><p>Bald stellen sich unsere Kandidatinnen und Kandidaten persönlich vor. Termin und Ort werden noch bekanntgegeben – bleibt dran!</p></div>' +
         '</div></section></div></div>',
 
       'kontakt': () =>
